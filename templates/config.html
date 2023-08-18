@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+
+{% block page_content %}
+
+<div class="container">
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <p class="h2 mt-2 mb-5">Configuração</p>
+      <p class="description">Adicione as pastas e extensões para indexar. Inclua também a lista de arquivos e pastas que serão excluídos da indexação.</p>
+    </div>
+    
+    <div class="col-5">
+      <div class="card">
+        <div class="card-header py-1"><h4 class="card-title text-center">Adicionar Pastas</h4></div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <form method="POST" action="./config">
+              <input type="text" name="fld_path" placeholder="Digite o path da pasta e pressione enter" class="col-12 text-center" autocomplete="off" autofocus>
+            </form>
+          </li>
+          {% for folder in folders %}
+          <li class="list-group-item">
+            {{folder.fld_path}}
+            <form method="POST" action="./delete" style="display: inline">
+              <input type="hidden" value="{{folder.fld_path}}" name="fld_path">
+              <button class="btn btn-danger btn-sm float-end py-0"><img src="{{url_for('static', filename='images/trash.svg')}}" alt="deletar"></button>
+            </form>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-2">
+      <div class="card">
+        <div class="card-header py-1"><h4 class="card-title text-center">Extensões</h4></div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <form method="POST" action="./config">
+              <input type="text" name="ext_name" placeholder="Digite a extensão" class="col-12 text-center" autocomplete="off">
+            </form>
+          </li>
+          {% for extension in extensions %}
+          <li class="list-group-item">
+            {{extension.ext_name}}
+            <form method="POST" action="./delete" style="display: inline">
+              <input type="hidden" value="{{extension.ext_name}}" name="ext_name">
+              <button class="btn btn-danger btn-sm float-end py-0"><img src="{{url_for('static', filename='images/trash.svg')}}" alt="deletar"></button>
+            </form>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-5">
+      <div class="card">
+        <div class="card-header py-1"><h4 class="card-title text-center">Excluir Itens</h4></div>
+
+        <div class="row gx-1">
+          <div class="col-6">
+            <div class="card-header py-1"><h5 class="card-title text-center">Pastas</h5></div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <form method="POST" action="./config">
+                  <input type="text" name="exc_name" placeholder="Excluir Pasta" class="col-12 text-center" autocomplete="off">
+                  <input type="hidden" name="exc_type" value="folder">
+                </form>
+              </li>
+              {% for exclude in excludes %}
+              {% if exclude.exc_type=="folder" %}
+              <li class="list-group-item">
+                {{exclude.exc_name}}
+                <form method="POST" action="./delete" style="display: inline">
+                  <input type="hidden" value="{{exclude.exc_name}}" name="exc_name">
+                  
+                  <input type="hidden" value="{{exclude.exc_name}}" name="exc_name"> 
+                  <input type="hidden" value="{{exclude.exc_type}}" name="exc_type">
+                  <button class="btn btn-danger btn-sm float-end py-0"><img src="{{url_for('static', filename='images/trash.svg')}}" alt="deletar"></button>
+                </form>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+  
+          <div class="col-6">
+            <div class="card-header py-1"><h5 class="card-title text-center">Arquivos</h5></div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <form method="POST" action="./config">
+                  <input type="text" name="exc_name" placeholder="Excluir Arquivo" class="col-12 text-center" autocomplete="off">
+                  <input type="hidden" name="exc_type" value="file">
+                </form>
+              </li>
+              {% for exclude in excludes %}
+              {% if exclude.exc_type=="file" %}
+              <li class="list-group-item">
+                {{exclude.exc_name}}
+                <form method="POST" action="./delete" style="display: inline">
+                  <input type="hidden" value="{{exclude.exc_name}}" name="exc_name">
+                  
+                  <input type="hidden" value="{{exclude.exc_name}}" name="exc_name"> 
+                  <input type="hidden" value="{{exclude.exc_type}}" name="exc_type">
+                  <button class="btn btn-danger btn-sm float-end py-0"><img src="{{url_for('static', filename='images/trash.svg')}}" alt="deletar"></button>
+                </form>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+<script>
+  // JavaScript script to activate autofocus on the used input field
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get the name of the last used input field
+    var lastField = localStorage.getItem("lastField");
+
+    // Check if the field exists in the form
+    var field = document.getElementById(lastField);
+    if (field) {
+      field.focus();
+    }
+  });
+
+  // Click event on any input field
+  var fields = document.querySelectorAll("input[type='text']");
+  fields.forEach(function(field) {
+    field.addEventListener("focus", function() {
+      // Store the name of the used field in local storage
+      localStorage.setItem("lastField", field.id);
+    });
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Indexador de conteúdo</title>
+  <style type="text/css">
+    table {padding-left: 0px; 
+    }
+    .description {
+     font-size: 1.1em; 
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='bootstrap.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='bootstrap-icons-1.10.5.min.css')}}">
+  <!-- <link rel="stylesheet" type="text/css" href="https://icons.getbootstrap.com/assets/font/bootstrap-icons.min.css"> -->
+  <script src="{{url_for('static', filename='bootstrap.bundle.min.js')}}"></script>
+  
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='jquery.dataTables.min.css')}}">
+  <script src="{{url_for('static', filename='jquery-3.3.1.js')}}"></script>
+  <script src="{{url_for('static', filename='jquery.dataTables.min.js')}}"></script>
+  <style type="text/css">	
+    table tbody tr:nth-child(2n+1) { background:lightgray; }
+  </style>
+  
+  {% block page_head %}
+
+  {% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/"> Indexador </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./config">Configurações</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./index_all">Indexar</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+{% block page_content %}
+
+{% endblock %}
+
+
+
+
+</body>
+</html>
+

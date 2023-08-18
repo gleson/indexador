@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block page_content %}
+
+
+<div class="container">
+  <div class="row">
+    <p class="h2 mt-2 mb-5">Indexador de conteúdo</p>
+    <p class="description">Este APP armazena o conteúdo de seus arquivos em um banco de dados para que possa encontrá-los rapidamente quando precisar.</p>
+    <p class="description text-center rounded-pill bg-light text-dark">Status atual: {{ files|length }} arquivos indexados em {{folders|length}} pastas</p>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	    $('#tab1').DataTable();
+	} );
+</script>
+
+<div class="container">
+  <div class="row">
+    <table id="tab1" class="display">
+    <thead>
+        <tr>
+            <th class="col-2">File</th> <th class="col-2">Path</th> <th class="col-5">Words</th> <th class="col-1">Size KB</th> <th class="col-1">Created</th> <th class="col-1">Modified</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for file in files %}
+        <tr>
+          <td>{{file.fl_name}}</td><td>{{file.fl_path}}</td><td>{{file.fl_words | truncate(120)}}</td><td>{{file.fl_size}}</td><td>{{file.fl_created}}</td><td>{{file.fl_modificated}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+</div>
+
+
+{% endblock %}
+

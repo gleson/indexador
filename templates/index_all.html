@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+
+{% block page_content %}
+
+<div class="container">
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <p class="h2 mt-2 mb-5">Indexar os arquivos</p>
+      <p class="description">Selecione atualizar para verificar os status das pastas e encontrar as que estão desatualizadas.<br>
+        Selecione Indexar para iniciar imediatamente a indexação das pastas.</p>
+    </div>
+    
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header py-1 text-center">
+          <h4 class="card-title float-start">Pastas no sistema</h4>
+          <form method="POST" action="./update" class="float-end">
+            <button type="submit" class="btn btn-primary btn-sm" name="make_to_all" value="status">Atualizar todos <img src="{{url_for('static', filename='images/arrow-repeat.svg')}}" alt="atualizar"></button>
+            <button type="submit" class="btn btn-success btn-sm" name="make_to_all" value="update">Indexar todos <img src="{{url_for('static', filename='images/clipboard-data.svg')}}" alt="indexar"></button>
+          </form>
+        </div>
+        <ul class="list-group list-group-flush text-center">
+          <li class="list-group-item">
+            <div class="row d-flex align-items-center h6">
+              <div class="col-6">Pasta</div>
+              <div class="col-1 px-0">Arquivos <br>Indexados</div>
+              <div class="col-2">Última <br>Verificação</div>
+              <div class="col-1">Status</div>
+              <div class="col-1 px-0">Verificar<br>Status</div>
+              <div class="col-1 px-0">Indexar</div>
+            </div>
+          </li>
+          {% for folder in folders %}
+          <li class="list-group-item text-center">
+            <div class="row">
+              <div class="col-6 text-start">
+                {{folder.fld_path}}
+              </div>
+              <div class="col-1">
+                {% if folder.fld_hashes %}
+                {{folder.fld_hashes.split(',')|length}}
+                {% else %}
+                 0
+                {% endif %}
+              </div>
+              <div class="col-2">
+                {{folder.fld_last_check_date}}
+              </div>
+              <div class="col-1 px-0">
+                {{folder.fld_last_status}}
+              </div>
+              <div class="col-1">
+                <form method="POST" action="./update">
+                  <input type="hidden" value="{{folder.fld_path}}" name="fld_status">
+                  <button type="submit" class="btn btn-primary btn-sm py-0"><img src="{{url_for('static', filename='images/arrow-repeat.svg')}}" alt="atualizar"></button>
+                </form>
+              </div>
+              <div class="col-1">
+                <form method="POST" action="./update">
+                  <input type="hidden" value="{{folder.fld_path}}" name="fld_update">
+                  <button type="submit" class="btn btn-success btn-sm py-0"><img src="{{url_for('static', filename='images/clipboard-data.svg')}}" alt="indexar"></button>
+                </form>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+{% endblock %}
